@@ -27,6 +27,9 @@
     .anim-manager-btn {
       display: block;
     }
+    .anim-manager > tr > td.active {
+      background-color: #663399;
+    }
   </style>
   <body>
   <div class="main">
@@ -52,7 +55,7 @@ anim.onloadedmetadata = function() {
   animManager = new AnimationManager({
     targetNode: target,
     targetVideo: anim,
-    modifier: 3,
+    modifier: 10,
     width: "960px"
   });
 }

@@ -12,9 +12,13 @@ var AnimationManager = function(opts) {
   this.startSelectionPosition = null;
   this.endSelectionPosition = null;
   this.currentPosition = null;
+
   this.isMouseDown = false;
+  this.isValid = true;
+
+  this.playhead = null;
+
   this.simpleInterface = true;
-  this.playHead = null;
   this.player = new AnimationPlayer(this.targetVideo);
 
   this.selectorNodes = [];
@@ -51,11 +55,26 @@ AnimationManager.prototype._initialize = function() {
     console.log("targetVideo duration: "+duration);
 
 
+    function onTick(e) {
+      var previous = _this.playhead;
+      _this.playhead = document.getElementById(_this.positionPrefix+Math.floor(e.target.currentTime*_this.modifier));
+      if (previous && previous.id != _this.playhead.id) {
+        previous.classList.remove("active")
+        _this.playhead.classList.add("active");
+      } else if(!previous) {
+        _this.playhead.classList.add("active");
+      }
+    }
+
+    this.targetVideo.addEventListener("tick", onTick);
+
     function onMouseOver(e) {
-      _this.currentVideoTime = parseFloat(e.target.getAttribute("data-time"));
-      _this.currentNodePosition = parseInt(e.target.getAttribute("data-position"));
-      _this.targetVideo.currentTime = _this.currentVideoTime;
-      metaNode.innerHTML = "current time: "+ _this.targetVideo.currentTime + " secs";
+      if (!_this.player.isPlaying) {
+        _this.currentVideoTime = parseFloat(e.target.getAttribute("data-time"));
+        _this.currentNodePosition = parseInt(e.target.getAttribute("data-position"));
+        _this.targetVideo.currentTime = _this.currentVideoTime;
+        metaNode.innerHTML = "current time: "+ _this.targetVideo.currentTime + " secs";
+      }
     }
 
     function onMouseDown(e) {
@@ -66,16 +85,20 @@ AnimationManager.prototype._initialize = function() {
     }
 
     function onMouseUp(e) {
-      _this.endSelectionTime = _this.currentVideoTime;
-      _this.endSelectionPosition = _this.currentNodePosition;
-      _this.isMouseDown = false;
+      if (_this.isValid) {
+        _this.endSelectionTime = _this.currentVideoTime;
+        _this.endSelectionPosition = _this.currentNodePosition;
+        _this.isMouseDown = false;
 
-      for(var k=_this.startSelectionPosition; k <= _this.endSelectionPosition; ++k) {
-        var node = document.getElementById(_this.positionPrefix+k);
-        node.classList.add("selection");
-        _this.selectionNodes.push(node);
+        for(var k=_this.startSelectionPosition; k <= _this.endSelectionPosition; ++k) {
+          var node = document.getElementById(_this.positionPrefix+k);
+          node.classList.add("selection");
+          _this.selectionNodes.push(node);
+        }
+        metaNode.innerHTML = "start: "+_this.startSelectionTime+" secs, end: "+_this.endSelectionTime+" secs";
+      } else {
+        _this.isValid = false;
       }
-      metaNode.innerHTML = "start: "+_this.startSelectionTime+" secs, end: "+_this.endSelectionTime+" secs";
     }
 
     function onMouseMove(e) {
@@ -118,8 +141,16 @@ AnimationManager.prototype._initialize = function() {
       }
       this.targetNode.appendChild(clearSelectionBtn);
 
+      var clearPlayHeadBtn = document.createElement("button");
+      clearPlayHeadBtn.innerHTML = "Clear Playhead";
+      clearPlayHeadBtn.classList.add("anim-manager-btn");
+      clearPlayHeadBtn.onclick = function() {
+        _this.clearPlayHead();
+      }
+      this.targetNode.appendChild(clearPlayHeadBtn);
+
       var loopSelectionBtn = document.createElement("button");
-      loopSelectionBtn.innerHTML = "Loop Selection";
+      loopSelectionBtn.innerHTML = "Play Selection";
       loopSelectionBtn.classList.add("anim-manager-btn");
       loopSelectionBtn.onclick = function(){
         if (typeof _this.startSelectionTime == "number" && _this.endSelectionTime) {
@@ -138,9 +169,17 @@ AnimationManager.prototype._initialize = function() {
       }
       this.targetNode.appendChild(modifierField);
 
+
     }
 
 
+  }
+
+  AnimationManager.prototype.clearPlayHead = function() {
+    if (this.playhead) {
+      this.playhead.classList.remove("active");
+      this.playhead = null;
+    }
   }
 
   AnimationManager.prototype.clearSelection = function() {
