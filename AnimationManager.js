@@ -5,7 +5,7 @@ var AnimationManager = function(opts) {
   this.targetNode = opts.targetNode;
   this.width = opts.width || "960px";
   this.height = opts.height || "100px";
-  this.modifier = opts.modifier || 4;
+  this.modifier = opts.modifier || 1;
 
   this.startSelectionTime = null;
   this.endSelectionTime = null;
@@ -24,12 +24,16 @@ var AnimationManager = function(opts) {
   this.selectorNodes = [];
   this.selectionNodes = [];
 
+  this.segmentTbl = null;
+  this.segments = [];
+
   this._initialize();
 }
 
 AnimationManager.prototype._initialize = function() {
   var _this = this;
   var tbl = document.createElement("table");
+  tbl.setAttribute('draggable', false);
   tbl.id = this.identifier;
   tbl.classList.add(this.identifier);
   tbl.style.width = "100%";
@@ -38,6 +42,7 @@ AnimationManager.prototype._initialize = function() {
   this.targetNode.setAttribute("style","max-width:"+this.width+"; width:100%;");
 
   var row0 = document.createElement("tr");
+  row0.setAttribute('draggable', false);
   tbl.appendChild(row0);
 
   var metaNode = document.createElement("span");
@@ -48,6 +53,10 @@ AnimationManager.prototype._initialize = function() {
     if (typeof _this.startSelectionTime == "number" && _this.endSelectionTime) {
       metaNode.innerHTML = "start: "+_this.startSelectionTime+" secs, end: "+_this.endSelectionTime+" secs";
     }
+  }
+
+  tbl.ondrag = function() {
+    return false;
   }
 
   if (this.targetVideo && this.targetVideo.duration) {
@@ -78,6 +87,7 @@ AnimationManager.prototype._initialize = function() {
     }
 
     function onMouseDown(e) {
+      e.preventDefault();
       _this.clearSelection();
       _this.startSelectionTime = _this.currentVideoTime;
       _this.startSelectionPosition = _this.currentNodePosition;
@@ -90,11 +100,10 @@ AnimationManager.prototype._initialize = function() {
         _this.endSelectionPosition = _this.currentNodePosition;
         _this.isMouseDown = false;
 
-        for(var k=_this.startSelectionPosition; k <= _this.endSelectionPosition; ++k) {
-          var node = document.getElementById(_this.positionPrefix+k);
+        _this.selectionNodes = _this._getNodesBetweenSelection();
+        _this.selectionNodes.forEach(function(node) {
           node.classList.add("selection");
-          _this.selectionNodes.push(node);
-        }
+        });
         metaNode.innerHTML = "start: "+_this.startSelectionTime+" secs, end: "+_this.endSelectionTime+" secs";
       } else {
         _this.isValid = false;
@@ -111,6 +120,7 @@ AnimationManager.prototype._initialize = function() {
       var part = document.createElement("td");
       part.id = _this.positionPrefix+k;
       part.classList.add("selector");
+      part.setAttribute('draggable', false);
 
       part.setAttribute("data-position",k);
       part.setAttribute("data-time",k/this.modifier);
@@ -129,6 +139,7 @@ AnimationManager.prototype._initialize = function() {
       this.targetNode.removeChild(this.targetNode.lastChild);
     }
     this.targetNode.appendChild(tbl);
+    this.segments = [];
 
     if (_this.simpleInterface) {
       this.targetNode.appendChild(metaNode);
@@ -169,15 +180,40 @@ AnimationManager.prototype._initialize = function() {
       }
       this.targetNode.appendChild(modifierField);
 
+      var makeSegmentBtn = document.createElement("button");
+      makeSegmentBtn.innerHTML = "Build segment";
+      makeSegmentBtn.classList.add("anim-manager-btn");
+      makeSegmentBtn.onclick = function() {
+        _this.buildSegment();
+      }
+      this.targetNode.appendChild(makeSegmentBtn);
 
+      var clearSegmentBtn = document.createElement("button");
+      clearSegmentBtn.innerHTML = "Clear all segment";
+      clearSegmentBtn.classList.add("anim-manager-btn");
+      clearSegmentBtn.onclick = function() {
+        _this.clearSegments();
+      }
+      this.targetNode.appendChild(clearSegmentBtn);
+
+      this.segmentTbl = document.createElement("table");
+      var segmentTblHead = document.createElement("thead");
+      segmentTblHead.innerHTML = "\
+        <th>start</th>\
+        <th>name</th>\
+        <th>508 Msg</th>\
+        <th>content</th>\
+        <th>actions</th>";
+      this.segmentTbl.appendChild(segmentTblHead);
+      this.targetNode.appendChild(this.segmentTbl);
     }
   } // end _initialize
 
   AnimationManager.prototype.clearPlayHead = function() {
-    if (this.playhead) {
-      this.playhead.classList.remove("active");
-      this.playhead = null;
-    }
+    this.playhead = null;
+    document.querySelectorAll(".active").forEach(function(node) {
+      node.classList.remove("active");
+    });
   }
 
   AnimationManager.prototype.clearSelection = function() {
@@ -190,6 +226,104 @@ AnimationManager.prototype._initialize = function() {
     this.selectorNodes.forEach(function(node) {
       node.classList.remove("selection");
     });
+  }
+
+
+  AnimationManager.prototype._getNodesBetweenSelection = function() {
+    var nodes = [];
+    var node = null
+    for(var k=this.startSelectionPosition; k <= this.endSelectionPosition; ++k) {
+      node = document.getElementById(this.positionPrefix+k);
+      if (node != null) {
+        nodes.push(node);
+      }
+    }
+    return nodes;
+  }
+
+
+  AnimationManager.prototype._isStartTimeValid = function() {
+    var _this = this;
+    var isValid = true;
+    this.segments.forEach(function(segment) {
+      if (segment.startTime() >= _this.startSelectionTime) {
+        console.log("NOT VALID");
+        isValid = false;
+      }
+    });
+    return isValid;
+  }
+
+  AnimationManager.prototype._getSegmentStartAll = function() {
+    return this.segments.map(function(s){ return s.startTime(); });
+  }
+
+  AnimationManager.prototype.buildSegment = function() {
+    if (typeof this.startSelectionTime == "number" && this._isStartTimeValid()) {
+      var seg = new AnimationSegment();
+      seg.nodes = this._getNodesBetweenSelection();
+      this.segments.push(seg);
+      this.applySegments();
+      console.log(this._getSegmentStartAll());
+    }
+  }
+
+  AnimationManager.prototype.applySegments = function() {
+    for (var k=0; k < this.segments.length; ++k) {
+      var class0 = "segment";
+      var class1 = "segment-"+k;
+      var class2 = "segment-start"
+      for (var j=0; j < this.segments[k].nodes.length; ++j) {
+        this.segments[k].nodes[j].classList.add(class0);
+        this.segments[k].nodes[j].classList.add(class1);
+        if (j == this.segments[k].nodes.length-1) {
+          this.segments[k].nodes[j].classList.add(class2);
+        }
+      }
+    }
+    this._updateSegmentTbl();
+  }
+
+  AnimationManager.prototype._clearSegmentTbl = function() {
+    document.querySelectorAll(".segment-row").forEach(function(node) {
+      node.remove();
+    });
+  }
+
+  AnimationManager.prototype._updateSegmentTbl = function() {
+    var _this = this;
+    this._clearSegmentTbl();
+    for (var k=0; k < this.segments.length; ++k) {
+      var seg = this.segments[k];
+      var identifier = "s"+k;
+      var row = document.createElement("tr");
+      row.classList.add("segment-row");
+      row.classList.add(identifier);
+      row.innerHTML = "\
+        <td>"+seg.startTime()+"</td>\
+        <td><input class='segment-input' type='text'></input></td>\
+        <td><input class='segment-input' type='text'></input></td>\
+        <td><input class='segment-input' type='text'></input></td>\
+      ";
+      var actionTd = document.createElement("td");
+      var playBtn = document.createElement("button");
+      playBtn.innerHTML = "Play";
+      playBtn.onclick = function() {
+        _this.player.playFromAndTo(seg.startTime(),seg.endTime());
+      }
+      actionTd.appendChild(playBtn);
+      row.appendChild(actionTd);
+      _this.segmentTbl.appendChild(row);
+    };
+  }
+
+  AnimationManager.prototype.clearSegments = function() {
+    document.querySelectorAll(".segment").forEach(function(node) {
+      node.className = "";
+      node.classList.add("selector");
+    });
+    this.segments = [];
+    this._clearSegmentTbl();
   }
 
 }

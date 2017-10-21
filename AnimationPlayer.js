@@ -19,7 +19,7 @@ AnimationPlayer.prototype.playFromAndTo = function(fromTime,toTime) {
   }
   this._onTimeUpdate = setInterval(function(){
     _this.animation.dispatchEvent(new CustomEvent("tick"));
-    if (_this.animation.currentTime >= toTime) {
+    if (_this.animation.currentTime >= toTime || !_this.isPlaying) {
       _this.animation.pause();
       _this.isPlaying = false;
       console.log("animation ended at: "+_this.animation.currentTime);
