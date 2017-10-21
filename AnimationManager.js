@@ -58,7 +58,7 @@ AnimationManager.prototype._initialize = function() {
     function onTick(e) {
       var previous = _this.playhead;
       _this.playhead = document.getElementById(_this.positionPrefix+Math.floor(e.target.currentTime*_this.modifier));
-      if (previous && previous.id != _this.playhead.id) {
+      if (previous && _this.playhead && previous.id != _this.playhead.id) {
         previous.classList.remove("active")
         _this.playhead.classList.add("active");
       } else if(!previous) {
