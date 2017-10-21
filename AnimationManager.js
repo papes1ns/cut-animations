@@ -32,10 +32,10 @@ AnimationManager.prototype._initialize = function() {
   var tbl = document.createElement("table");
   tbl.id = this.identifier;
   tbl.classList.add(this.identifier);
-  tbl.style.width = this.width;
+  tbl.style.width = "100%";
   tbl.style.height = this.height;
   tbl.style.background = this.backgroundColor;
-  this.targetNode.parentNode.width = this.width;
+  this.targetNode.setAttribute("style","max-width:"+this.width+"; width:100%;");
 
   var row0 = document.createElement("tr");
   tbl.appendChild(row0);
@@ -125,8 +125,8 @@ AnimationManager.prototype._initialize = function() {
     }
 
 
-    while (this.targetNode.firstChild) {
-      this.targetNode.removeChild(this.targetNode.firstChild);
+    while (this.targetNode.lastChild && this.targetNode.lastChild.id != "anim") {
+      this.targetNode.removeChild(this.targetNode.lastChild);
     }
     this.targetNode.appendChild(tbl);
 

@@ -5,6 +5,10 @@
     <title></title>
   </head>
   <style>
+    .anim-video {
+      width: 100%;
+      height: 100%;
+    }
     .anim-manager {
       background-color: #212224;
       margin: 0;
@@ -33,11 +37,10 @@
     }
   </style>
   <body>
-  <div class="main">
-    <video id="anim">
+  <div id="anim-manager-container" class="anim-manager-container">
+    <video class="anim-video" id="anim">
       <source src="test2-act0_2.mp4"></source>
     </video>
-    <span id="anim-manager-container"></span>
   </div>
   </body>
 </html>
