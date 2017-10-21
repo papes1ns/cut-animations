@@ -264,7 +264,6 @@ AnimationManager.prototype._initialize = function() {
       seg.nodes = this._getNodesBetweenSelection();
       this.segments.push(seg);
       this.applySegments();
-      console.log(this._getSegmentStartAll());
     }
   }
 
@@ -298,7 +297,7 @@ AnimationManager.prototype._initialize = function() {
       var identifier = "s"+k;
       var row = document.createElement("tr");
       row.classList.add("segment-row");
-      row.classList.add(identifier);
+      row.id = identifier;
       row.innerHTML = "\
         <td>"+seg.startTime()+"</td>\
         <td><input class='segment-input' type='text'></input></td>\
@@ -308,7 +307,9 @@ AnimationManager.prototype._initialize = function() {
       var actionTd = document.createElement("td");
       var playBtn = document.createElement("button");
       playBtn.innerHTML = "Play";
-      playBtn.onclick = function() {
+      playBtn.onclick = function(e) {
+        var segmentIndex = parseInt(e.target.parentNode.parentNode.id.split("s")[1]);
+        var seg = _this.segments[segmentIndex];
         _this.player.playFromAndTo(seg.startTime(),seg.endTime());
       }
       actionTd.appendChild(playBtn);
