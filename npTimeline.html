@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <style>
+    .anim-manager {
+      background-color: #212224;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      outline: 0;
+      font-size: 100%;
+      border-collapse: collapse;
+      vertical-align: baseline;
+    }
+    .anim-manager > tr > td:hover {
+      background-color: #3879D9;
+    }
+    .anim-manager > tr > td.selection {
+      background-color: #3879D9;
+    }
+    .anim-manager-meta {
+      padding-right: 10px;
+    }
+    .anim-manager-btn {
+      display: block;
+    }
+  </style>
+  <body>
+  <div class="main">
+    <video id="anim">
+      <source src="test2-act0_2.mp4"></source>
+    </video>
+    <span id="anim-manager-container"></span>
+  </div>
+  </body>
+</html>
+
+
+<script type="text/javascript" src="AnimationPlayer.js"></script>
+<script type="text/javascript" src="AnimationSegment.js"></script>
+<script type="text/javascript" src="AnimationManager.js"></script>
+<script>
+
+
+var anim = document.getElementById("anim");
+var target = document.getElementById("anim-manager-container");
+var animManager;
+anim.onloadedmetadata = function() {
+  animManager = new AnimationManager({
+    targetNode: target,
+    targetVideo: anim,
+    modifier: 3,
+    width: "960px"
+  });
+}
+</script>
