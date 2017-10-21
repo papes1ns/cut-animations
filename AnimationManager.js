@@ -203,6 +203,7 @@ AnimationManager.prototype._initialize = function() {
         <th>name</th>\
         <th>508 Msg</th>\
         <th>content</th>\
+        <th>isLoop</th>\
         <th>actions</th>";
       this.segmentTbl.appendChild(segmentTblHead);
       this.targetNode.appendChild(this.segmentTbl);
@@ -303,6 +304,7 @@ AnimationManager.prototype._initialize = function() {
         <td><input class='segment-input' type='text'></input></td>\
         <td><input class='segment-input' type='text'></input></td>\
         <td><input class='segment-input' type='text'></input></td>\
+        <td><input class='segment-checkbox' type='checkbox'></input></td>\
       ";
       var actionTd = document.createElement("td");
       var playBtn = document.createElement("button");
