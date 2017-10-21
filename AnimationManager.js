@@ -14,8 +14,6 @@ var AnimationManager = function(opts) {
   this.currentPosition = null;
 
   this.isMouseDown = false;
-  this.isValid = true;
-
   this.playhead = null;
 
   this.simpleInterface = true;
@@ -95,19 +93,15 @@ AnimationManager.prototype._initialize = function() {
     }
 
     function onMouseUp(e) {
-      if (_this.isValid) {
-        _this.endSelectionTime = _this.currentVideoTime;
-        _this.endSelectionPosition = _this.currentNodePosition;
-        _this.isMouseDown = false;
+      _this.endSelectionTime = _this.currentVideoTime;
+      _this.endSelectionPosition = _this.currentNodePosition;
+      _this.isMouseDown = false;
 
-        _this.selectionNodes = _this._getNodesBetweenSelection();
-        _this.selectionNodes.forEach(function(node) {
-          node.classList.add("selection");
-        });
-        metaNode.innerHTML = "start: "+_this.startSelectionTime+" secs, end: "+_this.endSelectionTime+" secs";
-      } else {
-        _this.isValid = false;
-      }
+      _this.selectionNodes = _this._getNodesBetweenSelection();
+      _this.selectionNodes.forEach(function(node) {
+        node.classList.add("selection");
+      });
+      metaNode.innerHTML = "start: "+_this.startSelectionTime+" secs, end: "+_this.endSelectionTime+" secs";
     }
 
     function onMouseMove(e) {
