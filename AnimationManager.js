@@ -171,9 +171,7 @@ AnimationManager.prototype._initialize = function() {
 
 
     }
-
-
-  }
+  } // end _initialize
 
   AnimationManager.prototype.clearPlayHead = function() {
     if (this.playhead) {
