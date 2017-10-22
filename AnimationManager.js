@@ -164,6 +164,14 @@ AnimationManager.prototype._initialize = function() {
       }
       this.targetNode.appendChild(loopSelectionBtn);
 
+      var stopBtn = document.createElement("button");
+      stopBtn.innerHTML = "Stop";
+      stopBtn.classList.add("anim-manager-btn");
+      stopBtn.onclick = function(){
+        _this.player.stop();
+      }
+      this.targetNode.appendChild(stopBtn);
+
       var modifierField = document.createElement("input");
       modifierField.type = "number";
       modifierField.id = "anim-manager-modifier";
@@ -306,7 +314,8 @@ AnimationManager.prototype._initialize = function() {
       playBtn.onclick = function(e) {
         var segmentIndex = parseInt(e.target.parentNode.parentNode.id.split("s")[1]);
         var seg = _this.segments[segmentIndex];
-        _this.player.playFromAndTo(seg.startTime(),seg.endTime());
+        var isLoop = e.target.parentNode.previousElementSibling.firstElementChild.checked;
+        _this.player.playFromAndTo(seg.startTime(),seg.endTime(),isLoop);
       }
       actionTd.appendChild(playBtn);
       row.appendChild(actionTd);
