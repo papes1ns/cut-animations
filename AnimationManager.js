@@ -87,6 +87,7 @@ AnimationManager.prototype._initialize = function() {
     function onMouseDown(e) {
       e.preventDefault();
       _this.clearSelection();
+      _this.clearPlayHead();
       _this.startSelectionTime = _this.currentVideoTime;
       _this.startSelectionPosition = _this.currentNodePosition;
       _this.isMouseDown = true;
