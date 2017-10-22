@@ -203,9 +203,7 @@ AnimationManager.prototype._initialize = function() {
       var segmentTblHead = document.createElement("thead");
       segmentTblHead.innerHTML = "\
         <th>start</th>\
-        <th>name</th>\
         <th>508 Msg</th>\
-        <th>content</th>\
         <th>isLoop</th>\
         <th>actions</th>";
       this.segmentTbl.appendChild(segmentTblHead);
@@ -304,8 +302,6 @@ AnimationManager.prototype._initialize = function() {
       row.id = identifier;
       row.innerHTML = "\
         <td>"+seg.startTime()+"</td>\
-        <td><input class='segment-input' type='text'></input></td>\
-        <td><input class='segment-input' type='text'></input></td>\
         <td><input class='segment-input' type='text'></input></td>\
         <td><input class='segment-checkbox' type='checkbox'></input></td>\
       ";
