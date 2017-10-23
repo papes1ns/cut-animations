@@ -37,7 +37,7 @@ AnimationPlayer.prototype.playFromAndTo = function(fromTime,toTime,isLoop) {
       _this.stop();
       console.log("animation ended at: "+_this.animation.currentTime);
       if (isLoop) {
-        this.isLooping = true;
+        _this.isLooping = true;
         _this.playFromAndTo(fromTime,toTime,isLoop);
       } else {
         _this.animation.dispatchEvent(new CustomEvent("didFinish"));
