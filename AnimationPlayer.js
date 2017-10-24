@@ -6,13 +6,11 @@ var AnimationPlayer = function(animation) {
 }
 
 AnimationPlayer.prototype.pause = function() {
-  this._clearInterval();
   this.animation.pause();
   this.isPlaying = false;
 }
 
 AnimationPlayer.prototype.play = function() {
-  this._clearInterval();
   this.animation.play();
   this.isPlaying = true;
 }
