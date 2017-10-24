@@ -6,11 +6,13 @@ var AnimationPlayer = function(animation) {
 }
 
 AnimationPlayer.prototype.pause = function() {
+  this._clearInterval();
   this.animation.pause();
   this.isPlaying = false;
 }
 
 AnimationPlayer.prototype.play = function() {
+  this._clearInterval();
   this.animation.play();
   this.isPlaying = true;
 }
@@ -23,9 +25,7 @@ AnimationPlayer.prototype.stop = function() {
 }
 
 AnimationPlayer.prototype.playFromAndTo = function(fromTime,toTime,isLoop) {
-  if (this._onTimeUpdate) {
-    this._clearInterval();
-  }
+  this._clearInterval();
   var _this = this;
   console.log("animation started at: "+fromTime);
   this.animation.paused
