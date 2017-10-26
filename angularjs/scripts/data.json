@@ -1,0 +1,63 @@
+var storiesCollection = [
+  { "name": "Pilot 2017",
+    "thumbnail": "/path/img.png",
+    "created_at": "10/27/17",
+    "acts": [
+
+      { "tag": "act1Rev1",
+        "icon": "/path/icon.png",
+        "starts_on_week": 1,
+        "animation": {
+          "path": "/path/animation.mp4",
+          "thumbnail": "/path/thumbnail.png"
+        },
+        "monologue": [
+          { "content": "Conflict script",
+            "starts_on_segment": 0 },
+          { "content": "Resolution script",
+            "starts_on_segment": 3 } 
+        ],
+        "segments": [
+          { "in_point": 0.0,
+            "out_point": 3.0,
+            "caption": "First thing happened",
+            "is_loop": false },
+          { "in_point": 3.0,
+            "out_point": 6.0,
+            "caption": "Second thing happened",
+            "is_loop": false },
+          { "in_point": 6.0,
+            "out_point": 9.0,
+            "caption": "Third thing happened",
+            "is_loop": false } ] },
+
+        { "tag": "act2Rev1",
+          "icon": "/path/icon.png",
+          "starts_on_week": 1,
+          "animation": {
+            "path": "/path/animation.mp4",
+            "thumbnail": "/path/thumbnail.png"
+          },
+          "monologue": [
+            { "content": "Conflict script",
+              "starts_on_segment": 0 },
+            { "content": "Resolution script",
+              "starts_on_segment": 3 } 
+          ],
+          "segments": [
+            { "in_point": 0.0,
+              "out_point": 3.0,
+              "caption": "First thing happened",
+              "is_loop": false },
+            { "in_point": 3.0,
+              "out_point": 6.0,
+              "caption": "Second thing happened",
+              "is_loop": false },
+            { "in_point": 6.0,
+              "out_point": 9.0,
+              "caption": "Third thing happened",
+              "is_loop": false } ] },
+
+    ]    
+  }
+]

@@ -5,7 +5,7 @@
     <title></title>
     <link rel="stylesheet" href="styles.css">
   </head>
-  <body ng-app="cuty">
+  <body ng-app="npApp">
 
     <div ui-view></div>
 
@@ -16,18 +16,22 @@
 
     <!-- init app module and define dependancies -->
     <script>
-      var cuty = angular.module("cuty",["ui.router"]);
-      cuty.run(function ($rootScope, $state, $stateParams) {
+      var npApp = angular.module("npApp",["ui.router"]);
+      npApp.run(function ($rootScope, $state, $stateParams) {
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
       });
     </script>
 
     <!-- load scripts -->
+    <script type="text/javascript" src="scripts/constants.js"></script>
+    <script type="text/javascript" src="scripts/directives.js"></script>
     <script type="text/javascript" src="scripts/factories.js"></script>
     <script type="text/javascript" src="scripts/controllers.js"></script>
-
-    <!-- define routes -->
+    <script type="text/javascript" src="scripts/services.js"></script>
+    
+    <script type="text/javascript" src="scripts/data.json"></script>
+    
     <script type="text/javascript" src="scripts/states.js"></script>
   </body>
 </html>

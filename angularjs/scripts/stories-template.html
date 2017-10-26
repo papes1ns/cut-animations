@@ -5,17 +5,17 @@
 
 <table ng-if="$state.current.name == 'stories'">
   <thead>
-    <th>Title</th>
+    <th>Name</th>
     <th>Number of Acts</th>
     <th>Created On</th>
     <th></th>
   </thead>
   <tbody>
     <tr ng-repeat="story in stories">
-      <td>{{ story.title }}</td>
-      <td>{{ story.number_of_acts }}</td>
+      <td>{{ story.name }}</td>
+      <td>{{ story.numberOfActs() }}</td>
       <td>{{ story.created_at }}</td>
-      <td><button ui-sref="stories.edit({id:story.id})">Edit</td>
+      <td><button ui-sref="stories.id({id:story.id})">Edit</td>
     </tr>
   </tobdy>
 <table>

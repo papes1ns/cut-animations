@@ -1,9 +1,9 @@
-var cuty = angular.module('cuty');
+var npApp = angular.module('npApp');
 
-cuty.controller('storyController', function($scope, $state, Story) {
-  $scope.stories = Story.all();
+npApp.controller('storyController', function($scope, $state, stories) {
+  $scope.stories = stories;
 });
 
-cuty.controller("storyEditController", function($scope, $state, Story) {
+npApp.controller("storyEditController", function($scope, $state, Story) {
     $scope.story = Story.find($state.params.id) || new Story();
 });

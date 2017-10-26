@@ -1,30 +1,44 @@
-var cuty = angular.module('cuty');
+var npApp = angular.module('npApp');
 
-cuty.factory('Segment', function() {
+npApp.factory("InstanceMixins", function() {
+  var InstanceMixins = new Object();
 
-  var Segment = function(data) {
+  InstanceMixins.isNew = function() {
+    return !this.id;
+  }
+
+  return InstanceMixins;
+});
+
+
+npApp.factory('Story', function(InstanceMixins, Act, Animation, Segment, Monologue) {
+
+  var _storiesCache = [];
+
+  var Story = function(data) {
     this.id = null;
-    this.act_id = null;
-    this.in_point = null;
-    this.out_point = null;
-    this.caption = "";
+    this.name = null;
+    this.thumbnail = null;
+    this.acts = [];
     angular.extend(this, data);
   }
 
 
-  return Segment;
-});
-
-
-cuty.factory('Story', function() {
-
-  var _storiesCache = [];
-  console.log(_storiesCache);
-
-  var Story = function(data) {
-    this.id = null;
-    this.title = null;
-    angular.extend(this, data);
+  Story._initialize = function(collection) {
+    _storiesCache = collection.map(function(storyData) {
+      storyData.acts = storyData.acts.map(function(actData) {
+        actData.animation = new Animation(actData.animation);
+        actData.monologue = actData.monologue.map(function(monologueData) {
+          return new Monologue(monologueData);
+        });
+        actData.segments = actData.segments.map(function(segmentData) {
+          return new Segment(segmentData);
+        });
+        return new Act(actData);
+      });
+      return new Story(storyData);
+    });
+    return _storiesCache;
   }
 
   Story.all = function() {
@@ -39,19 +53,65 @@ cuty.factory('Story', function() {
     return story;
   }
 
+
+  Story.prototype.numberOfActs = function() {
+    return this.acts.length;
+  }
+
+  angular.extend(Story.prototype, InstanceMixins);
+
   return Story;
 });
 
-cuty.factory('Act', function() {
+npApp.factory('Act', function() {
 
   var Act = function(data) {
     this.id = null;
+    this.tag = null;
     this.story_id = null;
-    this.title = null;
+    this.act_id = null;
+    this.starts_on_week = null;
     this.icon = null;
     this.segments = [];
     angular.extend(this, data);
   }
 
   return Act;
+});
+
+
+npApp.factory('Segment', function() {
+
+  var Segment = function(data) {
+    this.id = null;
+    this.act_id = null;
+    this.in_point = null;
+    this.out_point = null;
+    this.caption = "";
+    angular.extend(this, data);
+  }
+
+
+  return Segment;
+});
+
+npApp.factory('Animation', function() {
+
+  var Animation = function(data) {
+    angular.extend(this, data);
+  }
+
+
+  return Animation;
+});
+
+
+npApp.factory('Monologue', function() {
+
+  var Monologue = function(data) {
+    angular.extend(this, data);
+  }
+
+
+  return Monologue;
 });
