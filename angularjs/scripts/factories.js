@@ -76,6 +76,10 @@ npApp.factory('Act', function() {
     angular.extend(this, data);
   }
 
+  Act.prototype.numberOfSegments = function() {
+      return this.segments.length;
+  }
+
   return Act;
 });
 

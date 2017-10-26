@@ -39,21 +39,21 @@ npApp.config(function($stateProvider, $urlRouterProvider) {
     title: "All Act",
     url: "/",
     controller: "storyEditController",
-    templateUrl: "scripts/stories-act-edit-template.html"
+    templateUrl: "scripts/acts-template.html"
   });
 
   $stateProvider.state("stories.id.acts.new", {
     title: "New Act",
     url: "/new",
     controller: "storyEditController",
-    templateUrl: "scripts/stories-act-edit-template.html"
+    templateUrl: "scripts/acts-edit-template.html"
   });
 
   $stateProvider.state("stories.id.acts.act_id", {
     title: "Edit Act",
     url: "/:act_id",
     controller: "storyEditController",
-    templateUrl: "scripts/stories-act-edit-template.html"
+    templateUrl: "scripts/acts-edit-template.html"
   });
 
 
