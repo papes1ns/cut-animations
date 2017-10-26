@@ -34,3 +34,12 @@
 .anim-manager > tr > td:hover {
   background-color: #FF00FF;
 }
+
+button {
+  margin: 0px 10px 10px 0px;
+}
+
+table td {
+  text-align: center;
+  vertical-align: middle;
+}

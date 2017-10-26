@@ -78,7 +78,7 @@ npApp.factory('Act', function() {
 
   Act._initialize = function(data) {
     _actsCache = data.map(function(act) {
-      return new Act(data);
+      return new Act(act);
     });
     return _actsCache;
   }

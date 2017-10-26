@@ -81,6 +81,14 @@ npApp.config(function($stateProvider, $urlRouterProvider) {
     templateUrl: "scripts/acts-edit-template.html"
   });
 
+
+  $stateProvider.state("acts.edit", {
+    title: "List Acts",
+    url: "/:id",
+    controller: "actController",
+    templateUrl: "scripts/acts-edit-template.html"
+  });
+
   $urlRouterProvider.otherwise('/stories');
 
 });
