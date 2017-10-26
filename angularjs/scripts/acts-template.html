@@ -6,11 +6,11 @@
     <th></th>
   </thead>
   <tbody>
-    <tr ng-repeat="act in story.acts">
+    <tr ng-repeat="act in acts">
       <td>{{ act.tag }}</td>
       <td>{{ act.numberOfSegments() }}</td>
       <td>{{ act.created_at }}</td>
-      <td><button ui-sref="stories.id.acts.act_id({id:story.id,act_id:act.id})">Edit</td>
+      <td><button ui-sref="stories.edit.acts.act_id({id:story.id,act_id:act.id})">Edit</td>
     </tr>
   </tobdy>
 <table>

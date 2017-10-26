@@ -76,3 +76,75 @@ var storiesCollection = [
     ]    
   }
 ]
+
+var actsCollection = [
+
+  { "id": 1,
+    "tag": "act1Rev1",
+    "icon": "/path/icon.png",
+    "starts_on_week": 1,
+    "animation": {
+      "id": 1,
+      "path": "/path/animation.mp4",
+      "thumbnail": "/path/thumbnail.png"
+    },
+    "monologue": [
+      { "id": 1,
+        "content": "Conflict script",
+        "starts_on_segment": 0 },
+      { "id": 1,
+        "content": "Resolution script",
+        "starts_on_segment": 3 } 
+    ],
+    "segments": [
+      { "id": 1,
+        "in_point": 0.1,
+        "out_point": 3.1,
+        "caption": "First thing happened",
+        "is_loop": false },
+      { "id": 1,
+        "in_point": 3.1,
+        "out_point": 6.1,
+        "caption": "Second thing happened",
+        "is_loop": false },
+      { "id": 2,
+        "in_point": 6.1,
+        "out_point": 9.1,
+        "caption": "Third thing happened",
+        "is_loop": false } ] },
+
+    { "id": 2,
+      "tag": "act2Rev1",
+      "icon": "/path/icon.png",
+      "starts_on_week": 1,
+      "animation": {
+        "id": 1,
+        "path": "/path/animation.mp4",
+        "thumbnail": "/path/thumbnail.png"
+      },
+      "monologue": [
+        { "id": 2,
+          "content": "Conflict script",
+          "starts_on_segment": 0 },
+        { "id": 3,
+          "content": "Resolution script",
+          "starts_on_segment": 3 } 
+      ],
+      "segments": [
+        { "id": 3,
+          "in_point": 0.1,
+          "out_point": 3.1,
+          "caption": "First thing happened",
+          "is_loop": false },
+        { "id": 4,
+          "in_point": 3.1,
+          "out_point": 6.1,
+          "caption": "Second thing happened",
+          "is_loop": false },
+        { "id": 5,
+          "in_point": 6.1,
+          "out_point": 9.1,
+          "caption": "Third thing happened",
+          "is_loop": false } ] },
+
+]    

@@ -76,6 +76,13 @@ npApp.factory('Act', function() {
     angular.extend(this, data);
   }
 
+  Act._initialize = function(data) {
+    _actsCache = data.map(function(act) {
+      return new Act(data);
+    });
+    return _actsCache;
+  }
+
   Act.prototype.numberOfSegments = function() {
       return this.segments.length;
   }
