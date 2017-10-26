@@ -32,14 +32,8 @@ npApp.config(function($stateProvider, $urlRouterProvider) {
   });
 
   $stateProvider.state("stories.edit.acts", {
-    title: "New Act",
-    abstract: true,
-    url: "/acts"
-  });
-
-  $stateProvider.state("stories.edit.acts.index", {
     title: "All Act",
-    url: "/",
+    url: "/acts",
     controller: "storyEditController",
     templateUrl: "scripts/acts-template.html"
   });
