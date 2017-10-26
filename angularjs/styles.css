@@ -1,0 +1,36 @@
+.anim-video {
+  width: 100%;
+  height: 100%;
+}
+.anim-manager {
+  background-color: #212224;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  border-collapse: collapse;
+  vertical-align: baseline;
+  -webkit-user-drag: none;
+}
+.anim-manager > tr > td.selection {
+  background-color: #3879D9;
+}
+.anim-manager-meta {
+  padding-right: 10px;
+}
+.anim-manager-btn {
+  display: block;
+}
+.anim-manager > tr > td.segment {
+  background-color: #20B2AA;
+}
+.anim-manager > tr > td.segment-start {
+  background-color: #FA8072;
+}
+.anim-manager > tr > td.active {
+  background-color: #663399;
+}
+.anim-manager > tr > td:hover {
+  background-color: #FF00FF;
+}

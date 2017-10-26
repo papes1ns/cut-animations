@@ -1,0 +1,21 @@
+<button ui-sref="stories">All Stories</button>
+<button ui-sref="stories.new">New Story</button>
+
+<div ui-view></div>
+
+<table ng-if="$state.current.name == 'stories'">
+  <thead>
+    <th>Title</th>
+    <th>Number of Acts</th>
+    <th>Created On</th>
+    <th></th>
+  </thead>
+  <tbody>
+    <tr ng-repeat="story in stories">
+      <td>{{ story.title }}</td>
+      <td>{{ story.number_of_acts }}</td>
+      <td>{{ story.created_at }}</td>
+      <td><button ui-sref="stories.edit({id:story.id})">Edit</td>
+    </tr>
+  </tobdy>
+<table>
